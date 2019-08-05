@@ -1,14 +1,22 @@
-class Calculate {
-	constructor(billAmt,tipPercent,numOfPeople) { //constructor
-		this.tipByEach =  (billAmt*tipPercent)/numOfPeople;
-		this.tipByEach = Math.round(this.tipByEach*100)/100;
-		this.tipByEach = this.tipByEach.toFixed(2);
-		return this;
+var calculate = {
+	billamt:0.0,
+	tipPer:0.0,
+	numOfPeople:0,
+	tip:0.0,
+
+	setValues : function(billAmt,tipPercent,numOfPeople) {
+		this.billamt = billAmt;
+		this.tipPer = tipPercent;
+		this.numOfPeople = numOfPeople;
+	},
+
+	getTipByEach : function() {
+		this.tip = (this.billamt*this.tipPer)/this.numOfPeople;
+		this.tip = Math.round(this.tip*100)/100;
+		this.tip = this.tip.toFixed(2);
+		return this.tip;
 	}
-	getTipByEach() {
-		return this.tipByEach;
-	}
-}
+};
 
 
 function calculateTip() {
@@ -20,6 +28,7 @@ function calculateTip() {
 		alert("Please enter valid input");
 		return;
 	}
+
 	if (numOfPeople === "" || numOfPeople <=1) {
 		numOfPeople = 1;
 		document.getElementById("each").innerHTML = "";
@@ -28,10 +37,10 @@ function calculateTip() {
 		document.getElementById("each").innerHTML = "each";
 	}
 	
-	var cal = new Calculate(billAmt,tipPercent,numOfPeople); //object creation
+	var cal = Object.create(calculate);
+	cal.setValues(billAmt,tipPercent,numOfPeople);
 	document.getElementById("tip").innerHTML = cal.getTipByEach();
 }
-
 
 document.getElementById("calculate").onclick = function () {
 	calculateTip();
