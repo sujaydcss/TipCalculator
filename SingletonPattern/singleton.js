@@ -1,43 +1,50 @@
-class Calculate {
-	constructor(billAmt,tipPercent,numOfPeople) {
-		if(Calculate.exists) {
-			alert("already one instances exists");
-			return Calculate.instance;
-		}
-		this.tipByEach =  (billAmt*tipPercent)/numOfPeople;
-		this.tipByEach = Math.round(this.tipByEach*100)/100;
-		this.tipByEach = this.tipByEach.toFixed(2);
-		Calculate.instance = this;
-		Calculate.exists = true;
+var mySingleton = (function () {
+	var instance;
+	function init() {
+		var billAmt = document.getElementById("billamt").value;
+		var tipPercent = document.getElementById("tipParcentage").value;
+		var numOfPeople = document.getElementById("peopleamt").value;
 
-		return this;
-	}
-	getTipByEach() {
-		return this.tipByEach;
-	}
-}
+		if(billAmt=== "" || tipPercent<0) {
+			alert("Please enter valid input");
+			return;
+		}
+
+		if (numOfPeople === "" || numOfPeople <=1) {
+			numOfPeople = 1;
+			document.getElementById("each").innerHTML = "";
+		}
+		else {
+			document.getElementById("each").innerHTML = "each";
+		}
+
+		var tipByEach =  (billAmt*tipPercent)/numOfPeople;
+		tipByEach = Math.round(tipByEach*100)/100;
+		tipByEach = tipByEach.toFixed(2);
+
+		return { 
+			getTipByEach: function () { 
+				return tipByEach;
+			}
+		};
+	};
+	return {
+		getInstance: function () { //global point of access
+			if (this.instance) {
+				alert("Already one instance exists");
+				return this.instance;
+			}
+			this.instance = init();
+			return this.instance;
+		}
+	};
+})();
 
 function calculateTip() {
-	var billAmt = document.getElementById("billamt").value;
-	var tipPercent = document.getElementById("tipParcentage").value;
-	var numOfPeople = document.getElementById("peopleamt").value;
-
-	if(billAmt=== "" || tipPercent<0) {
-		alert("Please enter valid input");
-		return;
-	}
-
-	if (numOfPeople === "" || numOfPeople <=1) {
-		numOfPeople = 1;
-		document.getElementById("each").innerHTML = "";
-	}
-	else {
-		document.getElementById("each").innerHTML = "each";
-	}
-	
-	var cal = new Calculate(billAmt,tipPercent,numOfPeople);
-	document.getElementById("tip").innerHTML = cal.getTipByEach();
+	var singleton = mySingleton.getInstance();
+	document.getElementById("tip").innerHTML = singleton.getTipByEach();
 }
+
 
 document.getElementById("calculate").onclick = function () {
 	calculateTip();
