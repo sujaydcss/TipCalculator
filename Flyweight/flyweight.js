@@ -27,7 +27,8 @@ class CalculateFactory {
 			console.log("Object doesn't exist, creating new one\n");
 			var calc = new Calculate(ba,tp,np);
 			this.objs.push(calc);
-			console.log(this.objs.find(obj=>(obj.billamt===ba && obj.tipPercent===tp && obj.numOfPeople===np)));
+			console.log("objs are ");
+			console.log(this.objs);
 			return calc;
 		}
 
