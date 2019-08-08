@@ -11,7 +11,6 @@ class Calculate {
 		tips = tips.toFixed(2);
 		return tips;
 	}
-
 }
 
 function validate(argument) {
