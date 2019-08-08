@@ -1,6 +1,6 @@
 
 class Calculate {
-	setValues(billamt,tipPercent,numOfPeople) {
+	constructor(billamt,tipPercent,numOfPeople) {
 		this.billamt =  billamt;
 		this.tipPercent = tipPercent;
 		this.numOfPeople = numOfPeople;
@@ -30,15 +30,25 @@ class Calculate {
 	}
 }
 
+
+class Command {
+	constructor(calc) {
+		this.calc = calc;
+	}
+	execute(command) {
+		return this.calc[command]();
+	}
+}
+
 function fatchValues() {
 	var billAmt = document.getElementById("billamt").value;
 	var tipPercent = document.getElementById("tipParcentage").value;
 	var numOfPeople = document.getElementById("peopleamt").value;
 
-	var str = `ubh ${billamt}`;
-
-	const calc = new Calculate();
-	calc.setValues(billAmt,tipPercent,numOfPeople).validate().calculation();
+	var calc = new Calculate(billAmt,tipPercent,numOfPeople);
+	const cmd = new Command(calc);
+	calc = cmd.execute('validate');
+	calc = cmd.execute('calculation');
 	document.getElementById("tip").innerHTML = calc.tips;
 }
 
